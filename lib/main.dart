@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:geminiapi/pages/homepage.dart';
+import 'package:geminiapi/pages/navbar.dart';
 
 
 void main() {
@@ -14,9 +14,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+     title: 'Francis Gemini',
+      theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
      
-     
-      home: const Homepage(),
+      home: const NavBarRoots(),
     );
   }
 }
