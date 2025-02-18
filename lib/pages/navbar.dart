@@ -1,7 +1,9 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geminiapi/pages/exampl.dart';
+import 'package:geminiapi/pages/auth_pages/signin_page.dart';
+import 'package:geminiapi/pages/auth_pages/signup_page.dart';
+import 'package:geminiapi/pages/messaging_screen.dart';
 import 'package:geminiapi/pages/index.dart';
 
 
@@ -17,7 +19,9 @@ class _NavBarRootsState extends State<NavBarRoots> {
   final _screens = [
     //Home Screen
     const TouristAttractionPage(),
-     const ChatScreen(),
+    const ChatScreen(),
+    const SignUpPage(),
+    const SignInPage()
     // MessageScreen(),
     // //Schedule Screen
     // const Profile(),

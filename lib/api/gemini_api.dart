@@ -31,32 +31,66 @@ Future<String> getGeminiData(String message, String budgetRange, String attracti
     // Expanded few-shot examples for Kenya
     String fewShotExamples = '''
 Example outputs for Kenya tourism:
+
 1. Budget: low, Category: Wildlife
 Destination: Nairobi National Park
 Nearby restaurants:
-- Carnivore Restaurant
-- Ranger's Restaurant
+- Carnivore Restaurant (Famous for its all-you-can-eat meat feast and lively atmosphere)
+- Ranger's Restaurant (Offers panoramic views of the park and serves delicious local cuisine)
+
 2. Budget: medium, Category: Beaches
 Destination: Diani Beach
 Nearby restaurants:
-- Sails Beach Bar & Restaurant
-- Ali Barbour's Cave Restaurant
+- Sails Beach Bar & Restaurant (Beachfront dining with fresh seafood and stunning ocean views)
+- Ali Barbour's Cave Restaurant (Unique dining experience in a coral cave with romantic ambiance)
+
 3. Budget: high, Category: Mountains
 Destination: Mount Kenya National Park
 Nearby restaurants:
-- Serena Mountain Lodge Restaurant
-- Fairmont Mount Kenya Safari Club
+- Serena Mountain Lodge Restaurant (Offers breathtaking views of Mount Kenya and serves gourmet international cuisine)
+- Fairmont Mount Kenya Safari Club (Luxurious dining with farm-to-table ingredients and a view of the mountain)
+
 4. Budget: low, Category: Cultural Sites
 Destination: Bomas of Kenya
 Nearby restaurants:
-- Utamu Restaurant
-- Nyama Choma Ranch
+- Utamu Restaurant (Serves authentic Kenyan dishes in a vibrant, cultural setting)
+- Nyama Choma Ranch (Famous for its traditional Kenyan barbecue and lively atmosphere)
+
 5. Budget: medium, Category: Snake Parks
 Destination: Mamba Village Centre, Mombasa
 Nearby restaurants:
-- Tamarind Mombasa
-- Forodhani Restaurant
+- Tamarind Mombasa (Elegant seafood restaurant with a terrace overlooking the creek)
+- Forodhani Restaurant (Offers a mix of Swahili and international cuisine with a relaxed ambiance)
 
+6. Budget: high, Category: Wildlife
+Destination: Ol Pajeta Conservancy
+Nearby restaurants:
+- Morani's Restaurant (Offers farm-to-table dining with ingredients from the conservancy's own garden)
+- Serena Sweetwaters Tented Camp Restaurant (Provides a unique dining experience with views of a watering hole frequented by wildlife)
+
+7. Budget: medium, Category: Lakes
+Destination: Lake Nakuru National Park
+Nearby restaurants:
+- Sarova Lion Hill Game Lodge Restaurant (Offers panoramic views of the lake and serves a mix of local and international cuisine)
+- Lake Nakuru Lodge Restaurant (Known for its bush breakfasts and dinners with stunning lake views)
+
+8. Budget: low, Category: Historical Sites
+Destination: Fort Jesus, Mombasa
+Nearby restaurants:
+- Jahazi Coffee House (Charming café serving local coffee and light meals in a historic setting)
+- Forodhani Restaurant (Offers traditional Swahili dishes with a view of the old town)
+
+9. Budget: high, Category: Marine Parks
+Destination: Watamu Marine National Park
+Nearby restaurants:
+- Medina Palms Ocean Spa (Luxurious beachfront dining with a focus on fresh, locally-sourced seafood)
+- Pilli Pipa Dhow Restaurant (Unique dining experience on a traditional dhow, serving freshly caught fish)
+
+10. Budget: medium, Category: Wildlife
+Destination: Amboseli National Park
+Nearby restaurants:
+- Kibo Safari Camp Restaurant (Offers al fresco dining with views of Mount Kilimanjaro)
+- Ol Tukai Lodge Restaurant (Serves international cuisine with a Kenyan twist and offers elephant watching during meals)
 Please provide a recommendation for Kenya tourism based on the following criteria:
 Budget: $budgetCategory (Range: $minBudget to $maxBudget)
 Category: $attractionType
@@ -127,10 +161,10 @@ Please ensure your response follows this exact format.
 }
 
 String processOutput(String rawOutput) {
-  // First, let's print the raw output for debugging
+  //  print the raw output for debugging
   print("Raw output from API: $rawOutput");
 
-  // Try to extract destination and restaurants
+  //  extracting destination and restaurants
   RegExp regex = RegExp(r'Destination: (.+)[\n\r]+Nearby restaurants:[\n\r]+((?:- .+[\n\r]?)+)', multiLine: true);
   Match? match = regex.firstMatch(rawOutput);
 
