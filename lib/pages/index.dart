@@ -48,7 +48,7 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
+                git              children: [
                                 const Text(
                                   'Select Your Budget Range',
                                   style: TextStyle(color: Colors.black, fontSize: 20),
