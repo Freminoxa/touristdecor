@@ -88,7 +88,7 @@ class _SignInPageState extends State<SignInPage> {
 
   Future<void> _setRememberMe() async {
     final prefs = await SharedPreferences.getInstance();
-    final expirationTime = DateTime.now().add(const Duration(days: 30)).millisecondsSinceEpoch;
+    final expirationTime = DateTime.now().add(const Duration(days: 1)).millisecondsSinceEpoch;
     await prefs.setInt('rememberMeExpiration', expirationTime);
     await _auth.setPersistence(Persistence.LOCAL);
   }
@@ -106,7 +106,7 @@ class _SignInPageState extends State<SignInPage> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/wildlife2.jpeg'),
+            image: AssetImage('assets/images/tourist.jpeg'),
             fit: BoxFit.cover,
           ),
         ),

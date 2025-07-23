@@ -10,10 +10,11 @@ class TouristAttractionPage extends StatefulWidget {
 
 class _TouristAttractionPageState extends State<TouristAttractionPage> {
   String _selectedBudgetRange = '0 to 5000';
-  final List<String> _attractions = ['Wildlife', 'Beaches', 'Mountains', 'National Parks', 'Museums', 'National Reserves', 'Snake Parks'];
+  final List<String> _attractions = ['Wildlife', 'Beaches', 'Mountains', 'National Parks', 'Museums', 'National Reserves', 'Snake Parks','Wildbeast','Big Five'];
   final List<String> _selectedAttractions = [];
   String _selectedMonth = 'January';
   String _result = '';
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
           // Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/images/wildlife2.jpeg',
+              'assets/images/tourist.jpeg',
               fit: BoxFit.cover,
             ),
           ),
@@ -42,7 +43,7 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          // Budget Dropdown (Non-Expandable)
+                          // Budget Dropdown
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Column(
@@ -50,11 +51,11 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                               children: [
                                 const Text(
                                   'Select Your Budget Range',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
                                 ),
                                 DropdownButton<String>(
-                                  isExpanded: false, // Non-expandable
-                                  dropdownColor: Colors.grey,
+                                  isExpanded: false,
+                                  dropdownColor: Colors.blue,
                                   value: _selectedBudgetRange,
                                   items: <String>[
                                     '0 to 5000',
@@ -83,7 +84,7 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                               children: [
                                 const Text(
                                   'Choose Type of Attraction',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(color: Colors.black, fontSize: 20),
                                 ),
                                 Wrap(
                                   spacing: 10.0,
@@ -107,7 +108,7 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                               ],
                             ),
                           ),
-                          // Month Picker (Non-Expandable)
+                          // Month Picker
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: Column(
@@ -115,11 +116,11 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                               children: [
                                 const Text(
                                   'Select Month to Visit',
-                                  style: TextStyle(color: Colors.white, fontSize: 18),
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
                                 ),
                                 DropdownButton<String>(
-                                  isExpanded: false, // Non-expandable
-                                  dropdownColor: Colors.grey,
+                                  isExpanded: false,
+                                  dropdownColor: Colors.blue,
                                   value: _selectedMonth,
                                   items: <String>[
                                     'January', 'February', 'March', 'April', 'May', 'June',
@@ -144,23 +145,44 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
                             child: ElevatedButton(
                               onPressed: () async {
+                                setState(() {
+                                  _isLoading = true; // Set loading state to true when button is pressed
+                                });
+
                                 String attractionType = _selectedAttractions.isNotEmpty ? _selectedAttractions.join(', ') : 'Specific';
                                 String result = await getGeminiData('Find attractions', _selectedBudgetRange, attractionType, _selectedMonth.toString());
+                                
                                 setState(() {
                                   _result = result;
+                                  _isLoading = false; // Set loading state to false once the data is fetched
                                 });
                               },
                               child: const Text('Find Attractions'),
                             ),
                           ),
-                          // Result Display
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Text(
-                              _result,
-                              style: const TextStyle(color: Colors.white),
+                          // Result Display in SafeArea Container
+                          if (_result.isNotEmpty) // Only show if there's a result
+                            SafeArea(
+                              child: Container(
+                                padding: const EdgeInsets.all(16.0),
+                                margin: const EdgeInsets.symmetric(vertical: 8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.9),
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 5,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Text(
+                                  _result,
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              ),
                             ),
-                          ),
                         ],
                       ),
                     ),
@@ -169,6 +191,11 @@ class _TouristAttractionPageState extends State<TouristAttractionPage> {
               ),
             ],
           ),
+          // Show loading indicator if loading is true
+          if (_isLoading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
         ],
       ),
     );

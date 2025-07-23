@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -18,7 +19,6 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    // Initialize the messages stream
     _messagesStream = _firestore
         .collection('messages')
         .orderBy('timestamp', descending: true)
@@ -39,22 +39,24 @@ class _ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Travel Chat'),
+        title: const Text('TravelChat', style: TextStyle(fontFamily: 'Pacifico', fontSize: 24)),
         backgroundColor: Colors.blueAccent,
+        elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.place),
+            icon: const Icon(Icons.place, color: Colors.white),
             onPressed: () {
-              // Action for sending location (to be implemented)
+              
             },
           ),
         ],
       ),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/wildlife2.jpeg'),
+            image: const AssetImage('assets/images/tourist.jpeg'),
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.1), BlendMode.darken),
           ),
         ),
         child: Column(
@@ -64,7 +66,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 stream: _messagesStream,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator(color: Colors.blueAccent));
                   }
 
                   List<QueryDocumentSnapshot> messages = snapshot.data!.docs;
@@ -79,15 +81,47 @@ class _ChatScreenState extends State<ChatScreen> {
                       return Align(
                         alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
                         child: Container(
-                          margin: const EdgeInsets.all(8.0),
-                          padding: const EdgeInsets.all(12.0),
+                          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
                           decoration: BoxDecoration(
-                            color: isCurrentUser ? Colors.blue[100] : Colors.white.withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(15),
+                            color: isCurrentUser ? Colors.blue.withOpacity(0.9) : Colors.white.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black12,
+                                blurRadius: 3,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
                           ),
-                          child: Text(
-                            data['text'],
-                            style: const TextStyle(fontSize: 16, color: Colors.black),
+                          child: Column(
+                            crossAxisAlignment: isCurrentUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                isCurrentUser ? 'You' : data['sender'].split('@')[0],
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: isCurrentUser ? Colors.white70 : Colors.blue,
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                data['text'],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: isCurrentUser ? Colors.white : Colors.black87,
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                DateFormat('HH:mm').format(data['timestamp'].toDate()),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: isCurrentUser ? Colors.white70 : Colors.black54,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       );
@@ -96,28 +130,44 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 5,
+                    offset: Offset(0, -2),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               child: Row(
                 children: <Widget>[
+                  IconButton(
+                    icon: const Icon(Icons.camera_alt, color: Colors.blue),
+                    onPressed: () {
+                      
+                    },
+                  ),
                   Expanded(
                     child: TextField(
                       controller: _controller,
                       decoration: InputDecoration(
-                        hintText: 'Type a message...',
-                        hintStyle: const TextStyle(color: Colors.white70),
+                        hintText: 'Share your travel experience...',
+                        hintStyle: const TextStyle(color: Colors.grey),
                         filled: true,
-                        fillColor: Colors.white.withOpacity(0.8),
+                        fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
                           borderSide: BorderSide.none,
                         ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       ),
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.send, color: Colors.white),
+                    icon: const Icon(Icons.send, color: Colors.blue),
                     onPressed: () {
                       if (_controller.text.isNotEmpty) {
                         _sendMessage(_controller.text);

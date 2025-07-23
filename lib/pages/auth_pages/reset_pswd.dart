@@ -29,7 +29,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       try {
         await _auth.sendPasswordResetEmail(email: _emailController.text);
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Password reset email sent. Check your inbox.')),
+          const SnackBar(content: Text('Password reset email sent. Check your inbox.'),),
         );
         Navigator.of(context).pop(); // Return to sign-in page
       } on FirebaseAuthException catch (e) {

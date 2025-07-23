@@ -1,8 +1,8 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geminiapi/pages/auth_pages/signin_page.dart';
-import 'package:geminiapi/pages/auth_pages/signup_page.dart';
+import 'package:geminiapi/pages/chatbot/ai_chart.dart';
+import 'package:geminiapi/pages/location_pages/trial.dart';
 import 'package:geminiapi/pages/messaging_screen.dart';
 import 'package:geminiapi/pages/index.dart';
 
@@ -20,8 +20,9 @@ class _NavBarRootsState extends State<NavBarRoots> {
     //Home Screen
     const TouristAttractionPage(),
     const ChatScreen(),
-    const SignUpPage(),
-    const SignInPage()
+    const Homepage(),
+    // const SignInPage(),
+    const MapScreen(),
     // MessageScreen(),
     // //Schedule Screen
     // const Profile(),
@@ -40,6 +41,7 @@ class _NavBarRootsState extends State<NavBarRoots> {
           type: BottomNavigationBarType.fixed,
           selectedItemColor: const Color(0xFF7165D6),
           unselectedItemColor: Colors.black26,
+          
           selectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 15,
@@ -56,9 +58,11 @@ class _NavBarRootsState extends State<NavBarRoots> {
             BottomNavigationBarItem(
                 icon: Icon(CupertinoIcons.chat_bubble_text_fill), label: "Message"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person), label: "Profile"),
+                icon: Icon(Icons.person), label: "Chat"),
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.settings), label: "Settings"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: "Settings"),
+              icon: Icon(Icons.place), label: "Location"),
           ],
         ),
       ),
